@@ -330,6 +330,14 @@ pg.addEventListener('touchend',e=>{
   const d=tx-e.changedTouches[0].clientX;
   if(Math.abs(d)>50){d>0?next():prev();}
 },{passive:true});
+let wt=0;
+document.addEventListener('wheel',e=>{
+  const now=Date.now();
+  if(now-wt<600)return;
+  wt=now;
+  if(e.deltaY>0)next();
+  else if(e.deltaY<0)prev();
+},{passive:true});
 render();
 </script>
 </body>
