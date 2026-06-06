@@ -31,10 +31,10 @@ body{background:#1e1209;background-image:radial-gradient(ellipse at 30% 50%,#2d1
 .nbtn:disabled{opacity:.28;cursor:not-allowed}
 .pcnt{color:rgba(255,255,255,0.5);font-family:'Noto Sans KR',sans-serif;font-size:12px;min-width:70px;text-align:center}
 .hint{font-family:'Noto Sans KR',sans-serif;font-size:11px;color:rgba(255,255,255,0.22);text-align:center}
-.cover{background:linear-gradient(140deg,#0f2d20 0%,#1e5035 50%,#0f2d20 100%);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;height:100%;padding:50px}
-.cover-badge{font-family:'Noto Sans KR',sans-serif;font-size:10px;font-weight:700;letter-spacing:5px;color:#c9a84c;margin-bottom:24px}
+.cover{background:linear-gradient(150deg,#1a0e06 0%,#3b1f0c 45%,#1a0e06 100%);color:#f5efe6;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;height:100%;padding:44px 36px}
+.cover-badge{font-family:'Noto Sans KR',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;color:#d4a853;margin-bottom:20px}
 .cover h1{font-size:32px;font-weight:700;line-height:1.5;color:#fff}
-.cover-line{width:56px;height:2px;background:#c9a84c;margin:20px auto}
+.cover-line{width:48px;height:1px;background:#d4a853;margin:16px auto}
 .cover p{font-family:'Noto Sans KR',sans-serif;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.9}
 .cover-icon{font-size:54px;margin-bottom:20px}
 .ctp{background:linear-gradient(135deg,#f9f3e3,#fdf6e3);display:flex;flex-direction:column;justify-content:center;padding:56px 70px;height:100%}
@@ -94,7 +94,16 @@ table.ct tr:nth-child(even) td{background:#fdf6e3}
 </div>
 <script>
 const pages=[
-`<div class="cover"><div class="cover-icon">🐕</div><div class="cover-badge">반려견 건강 수명 과학 가이드</div><h1>내 강아지<br>더 오래, 더 건강하게</h1><div class="cover-line"></div><p>지방·칼로리·노쇠·루틴</p></div>`,
+`<div class="cover">
+  <p style="font-size:12px;color:#d4a853;letter-spacing:3px;font-weight:700;margin-bottom:18px">강아지 건강 수명 가이드</p>
+  <div style="background:rgba(212,168,83,0.12);border:1px solid rgba(212,168,83,0.3);border-radius:12px;padding:14px 18px;margin-bottom:20px">
+    <p style="font-size:13px;line-height:2;color:#e8d9c0;margin:0;font-style:italic">"나이 들어서 그런 거야"<br>그 말이 신호를 가렸습니다.</p>
+  </div>
+  <h1 style="font-size:26px;font-weight:800;line-height:1.5;color:#fff;margin-bottom:4px">강아지 노화,<br>우리가 몰랐던 진실</h1>
+  <div class="cover-line"></div>
+  <p style="font-size:12px;color:#c9b08a;line-height:2;margin-bottom:20px">노쇠 · 체중 · 식단 · 루틴<br>임상 현장에서 확인한 실전 관리법</p>
+  <p style="font-size:11px;color:#8a7060;letter-spacing:1px">🐾 하나로양한방TV</p>
+</div>`,
 `<div style="padding:4px 2px;display:flex;flex-direction:column;height:100%">
 <div class="stitle" style="margin-bottom:16px">머릿말</div>
 <div style="flex:1;display:flex;flex-direction:column;gap:14px">
