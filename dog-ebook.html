@@ -314,6 +314,7 @@ function render(){
   const pc=document.getElementById('pc');
   pc.innerHTML=html;
   pc.className=isFullPage(html)?'pc full':'pc';
+  pc.scrollTop=0;
   document.getElementById('pnum').textContent=(cur===0||cur===total-1)?'':cur;
   document.getElementById('pcnt').textContent=`${cur+1} / ${total}`;
   document.getElementById('pfill').style.width=`${((cur+1)/total)*100}%`;
@@ -349,8 +350,16 @@ pg.addEventListener('touchend',e=>{
 let wt=0;
 document.addEventListener('wheel',e=>{
   if(Math.abs(e.deltaY)<40)return;
+  const pc=document.getElementById('pc');
+  const scrollable=pc.scrollHeight>pc.clientHeight+10;
+  if(scrollable){
+    const atBottom=pc.scrollTop+pc.clientHeight>=pc.scrollHeight-4;
+    const atTop=pc.scrollTop<=0;
+    if(e.deltaY>0&&!atBottom)return;
+    if(e.deltaY<0&&!atTop)return;
+  }
   const now=Date.now();
-  if(now-wt<1500)return;
+  if(now-wt<1000)return;
   wt=now;
   if(e.deltaY>0)next();
   else if(e.deltaY<0)prev();
