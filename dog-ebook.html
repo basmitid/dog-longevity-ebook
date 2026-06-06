@@ -348,8 +348,9 @@ pg.addEventListener('touchend',e=>{
 },{passive:true});
 let wt=0;
 document.addEventListener('wheel',e=>{
+  if(Math.abs(e.deltaY)<40)return;
   const now=Date.now();
-  if(now-wt<600)return;
+  if(now-wt<1500)return;
   wt=now;
   if(e.deltaY>0)next();
   else if(e.deltaY<0)prev();
