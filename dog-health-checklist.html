@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강아지 노쇠 건강 체크리스트</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0d0d0d;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(0,60,20,0.15), transparent 60%),
+      radial-gradient(ellipse at 80% 50%, rgba(0,20,60,0.15), transparent 60%);
+    min-height: 100vh;
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+    color: #e0e0e0;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .robot-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+
+  .header h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #4ade80;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .header p {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 1px;
+  }
+
+  .scan-line {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #4ade80, transparent);
+    margin: 20px 0;
+    animation: scan 3s ease-in-out infinite;
+  }
+
+  @keyframes scan {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  .section {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.3s;
+  }
+
+  .section:hover {
+    border-color: rgba(74,222,128,0.3);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .section-icon {
+    font-size: 20px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #4ade80;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .section-subtitle {
+    font-size: 11px;
+    color: #555;
+    margin-left: auto;
+    font-family: monospace;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .check-item:last-child {
+    border-bottom: none;
+  }
+
+  .check-item:hover {
+    background: rgba(74,222,128,0.05);
+  }
+
+  .check-item.checked {
+    background: rgba(239,68,68,0.08);
+  }
+
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(74,222,128,0.4);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.2s;
+    font-size: 12px;
+  }
+
+  .check-item.checked .checkbox {
+    background: rgba(239,68,68,0.8);
+    border-color: #ef4444;
+    color: white;
+  }
+
+  .check-item:not(.checked) .checkbox {
+    color: transparent;
+  }
+
+  .check-text {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #c0c0c0;
+    flex: 1;
+  }
+
+  .check-item.checked .check-text {
+    color: #ef4444;
+  }
+
+  .severity {
+    font-family: monospace;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .severity.warn {
+    color: #f59e0b;
+    border-color: rgba(245,158,11,0.4);
+    background: rgba(245,158,11,0.08);
+  }
+
+  .severity.alert {
+    color: #ef4444;
+    border-color: rgba(239,68,68,0.4);
+    background: rgba(239,68,68,0.08);
+  }
+
+  .severity.info {
+    color: #60a5fa;
+    border-color: rgba(96,165,250,0.4);
+    background: rgba(96,165,250,0.08);
+  }
+
+  .result-panel {
+    background: rgba(74,222,128,0.05);
+    border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 24px;
+  }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .result-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #4ade80;
+    letter-spacing: 3px;
+  }
+
+  .score-display {
+    font-family: monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: #4ade80;
+    transition: color 0.4s;
+  }
+
+  .score-display.low { color: #4ade80; }
+  .score-display.medium { color: #f59e0b; }
+  .score-display.high { color: #f97316; }
+  .score-display.critical { color: #ef4444; }
+
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #4ade80;
+    border-radius: 3px;
+    transition: width 0.5s ease, background 0.4s;
+    width: 0%;
+  }
+
+  .result-status {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    transition: color 0.4s;
+  }
+
+  .result-desc {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .action-box {
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 12px;
+    line-height: 1.9;
+    color: #aaa;
+  }
+
+  .action-box strong {
+    color: #e0e0e0;
+  }
+
+  .count-badge {
+    font-family: monospace;
+    font-size: 10px;
+    color: #555;
+    text-align: right;
+    margin-top: 12px;
+  }
+
+  .reset-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: monospace;
+  }
+
+  .reset-btn:hover {
+    border-color: rgba(74,222,128,0.3);
+    color: #4ade80;
+  }
+
+  .frailty-tag {
+    font-size: 10px;
+    font-family: monospace;
+    color: #444;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="robot-icon">🤖</div>
+    <h1>Dog Health Scanner</h1>
+    <p>강아지 노쇠 자동 진단 체크리스트</p>
+  </div>
+
+  <div class="scan-line"></div>
+
+  <!-- 섹션 1: 신체 지표 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🦴</span>
+      <span class="section-title">신체 지표</span>
+      <span class="section-subtitle">PHYSICAL_MODULE</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">최근 6개월간 체중이 눈에 띄게 줄었다</div>
+      <span class="severity alert">HIGH</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">근육량 감소로 등이나 엉덩이 뼈가 도드라진다</div>
+      <span class="severity alert">HIGH</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">걷거나 계단을 오를 때 전보다 힘들어한다</div>
+      <span class="severity warn">MED</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">스스로 일어나기 힘들어한다</div>
+      <span class="severity alert">HIGH</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">소파·침대 오르내릴 때 도움이 필요하다</div>
+      <span class="severity warn">MED</span>
+    </div>
+  </div>
+
+  <!-- 섹션 2: 활력 지표 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">⚡</span>
+      <span class="section-title">활력 지표</span>
+      <span class="section-subtitle">ENERGY_MODULE</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">산책 거리나 시간이 줄었다</div>
+      <span class="severity warn">MED</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">좋아하던 놀이에 흥미를 잃었다</div>
+      <span class="severity warn">MED</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">하루 중 자는 시간이 현저히 늘었다</div>
+      <span class="severity info">LOW</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">식욕이 줄었다 / 먹여줘야 먹는 경우가 있다</div>
+      <span class="severity warn">MED</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">자다가 자주 깬다</div>
+      <span class="severity info">LOW</span>
+    </div>
+  </div>
+
+  <!-- 섹션 3: 회복력 지표 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🔄</span>
+      <span class="section-title">회복력 지표</span>
+      <span class="section-subtitle">RECOVERY_MODULE</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">가벼운 감기나 소화 문제에서 회복이 느려졌다</div>
+      <span class="severity warn">MED</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">낯선 환경이나 사람에 대한 반응이 둔해졌다</div>
+      <span class="severity info">LOW</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">털이 회색으로 변하거나 눈이 뿌옇게 보인다</div>
+      <span class="severity info">LOW</span>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="checkbox">✓</div>
+      <div class="check-text">물 먹는 양이 눈에 띄게 늘었다</div>
+      <span class="severity alert">HIGH</span>
+    </div>
+  </div>
+
+  <!-- 결과 패널 -->
+  <div class="result-panel">
+    <div class="result-header">
+      <span class="result-title">ANALYSIS RESULT</span>
+      <span class="score-display low" id="scoreDisplay">0.00</span>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="result-status" id="resultStatus" style="color:#4ade80">✅ 건강</div>
+    <div class="result-desc" id="resultDesc">체크된 항목이 없습니다. 해당 증상을 선택해 주세요.</div>
+    <div class="action-box" id="actionBox">
+      <strong>권장 조치:</strong> 현재 루틴을 유지하고, 연 1회 혈액검사를 진행하세요.
+    </div>
+
+    <div class="count-badge" id="countBadge">0 / 14 항목 선택됨</div>
+
+    <button class="reset-btn" onclick="resetAll()">[ RESET SCAN ]</button>
+  </div>
+
+  <p style="text-align:center;font-size:10px;color:#333;margin-top:24px;font-family:monospace;">
+    출처: 내 강아지 더 오래, 더 건강하게 — 하나로양한방TV<br>
+    ※ 이 체크리스트는 진단 도구가 아닙니다. 수의사와 상담하세요.
+  </p>
+
+</div>
+
+<script>
+const TOTAL = 14;
+
+const levels = [
+  { max: 0.2,  status: '✅ 건강',    color: '#4ade80', fillColor: '#4ade80',  desc: '현재 건강 상태가 양호합니다.', action: '현재 루틴을 유지하고, <strong>연 1회 혈액검사</strong>를 진행하세요.' },
+  { max: 0.4,  status: '⚠️ 초기 노쇠', color: '#f59e0b', fillColor: '#f59e0b', desc: '일부 노쇠 신호가 감지되었습니다. 예방적 관리를 시작할 시기입니다.', action: '<strong>체중 점검, 마사지, 운동량 조절</strong>을 시작하세요. 6개월 단위로 추적 관찰을 권장합니다.' },
+  { max: 0.6,  status: '🟠 경증 노쇠', color: '#f97316', fillColor: '#f97316', desc: '근육·관절·활력 저하가 진행 중일 수 있습니다. 초기 치료가 필요합니다.', action: '<strong>수의사 상담</strong>을 받고 <strong>혈액검사</strong>를 진행하세요. 식단 및 운동 강도를 조절해야 합니다.' },
+  { max: 1.01, status: '🔴 중증 노쇠', color: '#ef4444', fillColor: '#ef4444', desc: '통증·질환 동반 가능성이 높습니다. 즉각적인 조치가 필요합니다.', action: '<strong>지금 바로 수의사에게 방문하세요.</strong> 관절염, 신장질환, 호르몬 질환 등이 숨어있을 수 있습니다.' },
+];
+
+function toggle(el) {
+  el.classList.toggle('checked');
+  update();
+}
+
+function update() {
+  const checked = document.querySelectorAll('.check-item.checked').length;
+  const index = checked / TOTAL;
+  const level = levels.find(l => index < l.max) || levels[levels.length - 1];
+
+  document.getElementById('scoreDisplay').textContent = index.toFixed(2);
+  document.getElementById('scoreDisplay').className = 'score-display ' + getScoreClass(index);
+  document.getElementById('progressFill').style.width = (index * 100) + '%';
+  document.getElementById('progressFill').style.background = level.fillColor;
+  document.getElementById('resultStatus').textContent = level.status;
+  document.getElementById('resultStatus').style.color = level.color;
+  document.getElementById('resultDesc').textContent = level.desc;
+  document.getElementById('actionBox').innerHTML = '<strong>권장 조치:</strong> ' + level.action;
+  document.getElementById('countBadge').textContent = checked + ' / ' + TOTAL + ' 항목 선택됨';
+}
+
+function getScoreClass(index) {
+  if (index < 0.2) return 'low';
+  if (index < 0.4) return 'medium';
+  if (index < 0.6) return 'high';
+  return 'critical';
+}
+
+function resetAll() {
+  document.querySelectorAll('.check-item.checked').forEach(el => el.classList.remove('checked'));
+  update();
+}
+</script>
+</body>
+</html>
