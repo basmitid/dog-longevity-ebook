@@ -73,24 +73,27 @@ table.ct tr:nth-child(even) td{background:#fdf6e3}
 .toc-link:hover{background:#f5f0e8;border-radius:8px;transition:background 0.2s;}
 .toc-sub{padding:5px 8px 5px 20px;font-size:12px;color:#666;border-left:2px solid #e8d5a3;margin:2px 0 2px 14px;cursor:pointer;border-radius:0 6px 6px 0;transition:background 0.15s}
 .toc-sub:hover{background:#f5f0e8}
+.side-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:40;width:52px;height:80px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.65);font-size:28px;cursor:pointer;transition:all .2s;backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;line-height:1;font-family:sans-serif;}
+.side-btn:hover:not(:disabled){background:rgba(255,255,255,0.22);color:#fff;transform:translateY(-50%) scale(1.07);}
+.side-btn:disabled{opacity:.15;cursor:not-allowed;transform:translateY(-50%);}
+.side-prev{left:-62px;border-radius:10px 0 0 10px;}
+.side-next{right:-62px;border-radius:0 10px 10px 0;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="book-outer">
     <div class="book-shadow"></div>
+    <button class="side-btn side-prev" id="pb" onclick="prev()">‹</button>
+    <button class="side-btn side-next" id="nb" onclick="next()">›</button>
     <div class="page" id="page">
       <div class="pc" id="pc"></div>
       <div class="pnum" id="pnum"></div>
     </div>
   </div>
   <div class="prog"><div class="pfill" id="pfill"></div></div>
-  <div class="nav">
-    <button class="nbtn" id="pb" onclick="prev()">◀ 이전</button>
-    <span class="pcnt" id="pcnt"></span>
-    <button class="nbtn" id="nb" onclick="next()">다음 ▶</button>
-  </div>
-  <div class="hint">← → 키 또는 화면 스와이프로 이동</div>
+  <span class="pcnt" id="pcnt"></span>
+  <div class="hint">← → 키 · 양옆 버튼 · 스와이프로 넘기세요</div>
 </div>
 <script>
 const pages=[
@@ -170,21 +173,20 @@ const pages=[
 <div class="toc-sub" onclick="go(16,'next')">6:3:1 법칙 — 지방을 줄이는 식단</div>
 <div class="toc-sub" onclick="go(17,'next')">실제 사례 — 체중 감량 결과</div>
 <div class="toc-sub" onclick="go(18,'next')">시작 전 반드시 체크하세요</div>
-<div class="toc-sub" onclick="go(19,'next')">6:3:1 식단 비율</div>
-<div class="toc-sub" onclick="go(20,'next')">단백질원 선택과 장 건강</div>
-<div class="toc-sub" onclick="go(21,'next')">간식 관리와 체중관리의 진짜 목표</div>
+<div class="toc-sub" onclick="go(19,'next')">단백질원 선택과 장 건강</div>
+<div class="toc-sub" onclick="go(20,'next')">간식 관리와 체중관리의 진짜 목표</div>
 
-<div class="toc-i toc-link" onclick="go(22,'next')" style="cursor:pointer;margin-top:6px"><span class="toc-cn">3장</span><span class="toc-t">덜 먹으면 더 오래 산다 — 칼로리 제한의 과학</span><span class="toc-d"></span></div>
-<div class="toc-sub" onclick="go(23,'next')">먹는 양이 수명을 결정한다</div>
-<div class="toc-sub" onclick="go(24,'next')">왜 덜 먹으면 건강해지는가</div>
-<div class="toc-sub" onclick="go(25,'next')">핵심 공식과 실천 가이드</div>
+<div class="toc-i toc-link" onclick="go(21,'next')" style="cursor:pointer;margin-top:6px"><span class="toc-cn">3장</span><span class="toc-t">덜 먹으면 더 오래 산다 — 칼로리 제한의 과학</span><span class="toc-d"></span></div>
+<div class="toc-sub" onclick="go(22,'next')">먹는 양이 수명을 결정한다</div>
+<div class="toc-sub" onclick="go(23,'next')">왜 덜 먹으면 건강해지는가</div>
+<div class="toc-sub" onclick="go(24,'next')">핵심 공식과 실천 가이드</div>
 
-<div class="toc-i toc-link" onclick="go(26,'next')" style="cursor:pointer;margin-top:6px"><span class="toc-cn">4장</span><span class="toc-t">오늘부터 실천하는 건강 수명 연장 루틴</span><span class="toc-d"></span></div>
-<div class="toc-sub" onclick="go(27,'next')">첫 번째 — 체중 관리</div>
-<div class="toc-sub" onclick="go(28,'next')">두 번째 — 균형 잡힌 식단</div>
-<div class="toc-sub" onclick="go(29,'next')">세 번째 — 규칙적인 운동</div>
-<div class="toc-sub" onclick="go(30,'next')">네 번째 — 정신적 자극</div>
-<div class="toc-sub" onclick="go(31,'next')">보호자 일상 체크리스트</div>`,
+<div class="toc-i toc-link" onclick="go(25,'next')" style="cursor:pointer;margin-top:6px"><span class="toc-cn">4장</span><span class="toc-t">오늘부터 실천하는 건강 수명 연장 루틴</span><span class="toc-d"></span></div>
+<div class="toc-sub" onclick="go(26,'next')">첫 번째 — 체중 관리</div>
+<div class="toc-sub" onclick="go(27,'next')">두 번째 — 균형 잡힌 식단</div>
+<div class="toc-sub" onclick="go(28,'next')">세 번째 — 규칙적인 운동</div>
+<div class="toc-sub" onclick="go(29,'next')">네 번째 — 정신적 자극</div>
+<div class="toc-sub" onclick="go(30,'next')">보호자 일상 체크리스트</div>`,
 `<div class="ctp"><div class="cnum">CHAPTER 1</div><div class="ctitle">노화로 착각하고<br>있는<br>노쇠의 증상</div><div class="cline"></div><div class="cintro">노화와 노쇠는 다릅니다.<br>구분하는 순간, 관리가 시작됩니다.<br>일찍 발견하면 되돌릴 수 있습니다.</div></div>`,
 `<div class="stitle">노쇠란 무엇인가</div><p class="bt">'프레일티(Frailty)'는 우리말로 노쇠, 또는 허약이라고 번역됩니다. 단순히 나이 든 것과는 다릅니다. 노쇠는 몸의 여러 시스템이 서서히 기능을 잃어가는 상태입니다.</p><ul class="cl"><li>근육이 줄고</li><li>체력이 떨어지며</li><li>작은 스트레스에도 회복이 느려지는 상태</li></ul><div class="kp"><div class="kpt">중요한 사실</div><p>프레일티 점수의 진짜 목적은 <strong>얼마나 살지를 예측하는 것이 아닙니다.</strong><br>지금 어떤 위험에 처해 있는지를 파악하고 개선하는 것이 목적입니다.<br><br>점수가 높게 나왔다면 그것은 경고 신호입니다 — 지금 당장 식단과 운동을 점검하고 수의사와 상담할 이유가 생긴 것입니다.</p></div>`,
 `<div class="stitle">단순 노화일까요? 질병 신호일까요?</div>
@@ -315,7 +317,6 @@ const pages=[
 <div class="hb" style="margin-top:14px"><p>공통점은 단 하나 — <strong>"무조건 굶기기"가 아닌 아이 상태에 맞는 식단 조절과 꾸준함</strong>이었습니다.</p></div>`,
 
 `<div class="stitle">시작 전 반드시 체크하세요</div><div class="sh">1. 우리 아이에게 맞는 식단인지 확인</div><p class="bt">닭가슴살은 체중관리에 도움이 될 수 있지만, 아이 상태에 맞는 양 조절이 중요합니다. 처음엔 <strong>소량부터 천천히 시작</strong>해 변 상태, 식욕, 컨디션을 보며 조절하세요.</p><div class="sh">2. 알레르기 반응 체크</div><ul class="cl"><li>눈물이 많아졌다</li><li>귀를 자꾸 긁는다</li><li>발을 핥는다 / 몸을 긁는다</li><li>변 상태가 달라졌다</li></ul><div class="hb"><p>이런 증상이 보이면 단백질원을 바꿔보세요.<br>닭고기 → 연어 또는 오리<br>동물성 단백질이 안 맞으면 → 두부 소량 (염분 제거 후 급여)</p></div>`,
-`<div class="stitle">6 : 3 : 1 식단 비율</div><div class="hb" style="text-align:center;padding:22px 18px"><p style="font-size:17px;line-height:2.8;font-weight:600">🥩 단백질 6<br><span style="font-size:13px;font-weight:400">(닭가슴살, 살코기 — 양념❌ 기름❌)</span><br>🍚 사료 3<br>🥦 채소 1<br><span style="font-size:13px;font-weight:400">(브로콜리, 단호박, 애호박)</span></p></div><div class="sh">하루 급여량 계산법</div><div class="kp"><div class="kpt">핵심 공식</div><p><strong>현재 체중이 아닌 목표 체중</strong>의 약 2% = 하루 총 급여량(g)<br><br>예시) 목표 체중 5kg → 하루 100g<br>→ 닭가슴살 60g + 사료 30g + 채소 10g</p></div><div class="hb" style="margin-top:10px;padding:10px 14px;border-left-color:#2c7744"><p style="font-size:12px;line-height:1.9;margin:0">💡 <strong>목표 체중은 체형(BCS)으로 결정하세요</strong><br>갈비뼈가 살짝 만져지고, 위에서 허리 라인이 들어오는 상태가 기준입니다. <strong>빠지는 체형을 기준</strong>으로 목표 체중을 설정하는 것이 핵심입니다.</p></div><p class="bt" style="margin-top:12px">현재 7kg이라도 목표가 5kg이면 5kg 기준으로 계산합니다.</p><div class="hb" style="margin-top:10px;padding:10px 14px"><p style="font-size:12px;line-height:1.8;margin:0">⚠️ 장기 적용 시 미량 영양소가 부족할 수 있습니다.<br>혈액 수치 확인 후 진행하시기를 권유드립니다.</p></div>`,
 `<div class="stitle">단백질원 선택과 장 건강</div><p class="bt">반복적인 설사나 묽은 변이 있다면 단순히 "장이 약한가 보다"가 아니라 <strong>특정 단백질원이 맞지 않는 신호</strong>일 수 있습니다.</p><div class="sh">만성장병증 신호</div><ul class="cl"><li>설사나 묽은 변이 반복된다</li><li>좋아졌다가 다시 나빠지기를 반복한다</li></ul><div class="hb"><p>장 염증이 오래 반복되면 췌장에도 부담을 줄 수 있습니다.<br>"좋은 음식"보다 <strong>"우리 아이 몸에 맞는 단백질 찾기"</strong>가 더 중요합니다.</p></div><table class="ct"><tr><th>상황</th><th>추천 대안</th></tr><tr><td>닭고기 알레르기</td><td>연어, 오리</td></tr><tr><td>동물성 단백질 예민</td><td>가수분해 단백 사료</td></tr><tr><td>보조 단백질</td><td>두부 소량 (염분 제거 필수)</td></tr></table>`,
 `<div class="stitle">간식 관리와 체중관리의 진짜 목표</div><div class="hb"><p>⚠️ 체중 변화가 더디다면? <strong>한 입 간식</strong>을 점검하세요.<br>가족들이 하나씩 주는 간식이 생각보다 많은 칼로리를 만들 수 있습니다.</p></div><div class="sh">실제 사례에서 나타난 변화</div><ul class="cl"><li>움직임이 조금 가벼워졌다</li><li>산책할 때 덜 힘들어한다</li><li>숨참이 줄어든 것 같다</li></ul><div class="kp"><div class="kpt">체중관리의 진짜 목표</div><p>단순히 몇 kg 빠졌는가가 아니라 <strong>체형이 어떻게 변했는가</strong>입니다.<br><br>살만 빠지고 근육까지 줄면 다리에 힘이 떨어지고 움직임이 더 불편해집니다.<br><br>✔ 체중 감량 + ✔ 근육 유지 + ✔ 움직임 개선<br>이 세 가지가 함께 가야 건강한 다이어트입니다.</p></div>`,
 
@@ -425,7 +426,7 @@ document.addEventListener('wheel',e=>{
     if(e.deltaY<0&&!atTop)return;
   }
   const now=Date.now();
-  if(now-wt<1000)return;
+  if(now-wt<400)return;
   wt=now;
   if(e.deltaY>0)next();
   else if(e.deltaY<0)prev();
