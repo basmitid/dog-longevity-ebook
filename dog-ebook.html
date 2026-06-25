@@ -84,6 +84,56 @@ table.ct tr:nth-child(even) td{background:#fdf6e3}
 .side-btn:disabled{opacity:.15;cursor:not-allowed;transform:translateY(-50%);}
 .side-prev{left:-62px;border-radius:10px 0 0 10px;}
 .side-next{right:-62px;border-radius:0 10px 10px 0;}
+
+/* ===== 반응형 (태블릿·모바일) ===== */
+@media(max-width:860px){
+  body{padding:10px;align-items:stretch;justify-content:flex-start}
+  .wrap{width:100%;gap:10px}
+  .book-outer{width:100%;height:auto;aspect-ratio:720/520}
+  .page{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:2px 7px 7px 2px}
+  .pc{padding:22px 20px 22px 28px}
+  .side-prev{left:0;border-radius:0 7px 7px 0}
+  .side-next{right:0;border-radius:7px 0 0 7px}
+  .side-btn{width:36px;height:54px;font-size:20px}
+  .prog{width:100%}
+  .stitle{font-size:15px;margin-bottom:10px;padding-bottom:7px}
+  .bt{font-size:12px;line-height:1.9;margin-bottom:10px}
+  .hb{padding:9px 12px;margin:10px 0}
+  .hb p,.kp p{font-size:12px}
+  .kp{padding:9px 12px;margin:9px 0}
+  .kpt{font-size:9px}
+  .sh{font-size:13px;margin:10px 0 5px}
+  ul.cl li{font-size:12px;line-height:1.8}
+  table.ct{font-size:11px}
+  table.ct th,table.ct td{padding:6px 8px}
+  .ci{font-size:12px;gap:8px;padding:6px 0}
+  .cb{width:14px;height:14px}
+  .cgtitle{font-size:11px;padding:4px 8px}
+  .ctp{padding:34px 42px}
+  .ctitle{font-size:22px}
+  .cintro{font-size:12px}
+  .cnum{font-size:10px}
+  .ep{padding:34px}
+  .ep h2{font-size:20px}
+  .ep p{font-size:12px}
+  .toc-t{font-size:12px}
+  .toc-sub{font-size:11px;padding:4px 6px 4px 16px}
+  .toc-i{padding:9px 0}
+  .toc-cn{font-size:9px;width:34px}
+  .pnum{font-size:10px;bottom:10px;right:12px}
+  .hint,.pcnt{font-size:10px}
+}
+@media(max-width:400px){
+  .pc{padding:16px 14px 16px 20px}
+  .stitle{font-size:13px}
+  .bt{font-size:11px}
+  .hb p,.kp p{font-size:11px}
+  .ctp{padding:24px 28px}
+  .ctitle{font-size:18px}
+  .ep{padding:24px}
+  .ep h2{font-size:17px}
+  .ep p{font-size:11px}
+}
 </style>
 </head>
 <body>
@@ -284,7 +334,7 @@ const pages=[
     <div style="font-size:10px;color:#999;margin-bottom:5px">04/09 ~ 06/19 · 71일</div>
     <div style="display:flex;align-items:center;gap:8px">
       <div style="flex:1;background:#e8d5a3;border-radius:6px;height:20px;position:relative;overflow:hidden">
-        <div style="position:absolute;left:0;top:0;width:64%;height:100%;background:linear-gradient(to right,#1e5035,#2d8a4e);border-radius:6px"></div>
+        <div style="position:absolute;left:0;top:0;width:55%;height:100%;background:linear-gradient(to right,#1e5035,#2d8a4e);border-radius:6px"></div>
       </div>
       <span style="font-size:11px;color:#1e5035;font-weight:700;min-width:42px">▼9.5%</span>
     </div>
@@ -297,7 +347,7 @@ const pages=[
     <div style="font-size:10px;color:#999;margin-bottom:5px">04/28 ~ 05/26 · 28일</div>
     <div style="display:flex;align-items:center;gap:8px">
       <div style="flex:1;background:#e8d5a3;border-radius:6px;height:20px;position:relative;overflow:hidden">
-        <div style="position:absolute;left:0;top:0;width:80%;height:100%;background:linear-gradient(to right,#1e5035,#2d8a4e);border-radius:6px"></div>
+        <div style="position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(to right,#1e5035,#2d8a4e);border-radius:6px"></div>
       </div>
       <span style="font-size:11px;color:#1e5035;font-weight:700;min-width:42px">▼17.3%</span>
     </div>
@@ -310,7 +360,7 @@ const pages=[
     <div style="font-size:10px;color:#999;margin-bottom:5px">04/17 ~ 05/30 · 43일</div>
     <div style="display:flex;align-items:center;gap:8px">
       <div style="flex:1;background:#e8d5a3;border-radius:6px;height:20px;position:relative;overflow:hidden">
-        <div style="position:absolute;left:0;top:0;width:69%;height:100%;background:linear-gradient(to right,#1e5035,#2d8a4e);border-radius:6px"></div>
+        <div style="position:absolute;left:0;top:0;width:59%;height:100%;background:linear-gradient(to right,#1e5035,#2d8a4e);border-radius:6px"></div>
       </div>
       <span style="font-size:11px;color:#1e5035;font-weight:700;min-width:42px">▼10.2%</span>
     </div>
@@ -323,7 +373,7 @@ const pages=[
     <div style="font-size:10px;color:#999;margin-bottom:5px">05/04 ~ 05/22 · 18일</div>
     <div style="display:flex;align-items:center;gap:8px">
       <div style="flex:1;background:#e8d5a3;border-radius:6px;height:20px;position:relative;overflow:hidden">
-        <div style="position:absolute;left:0;top:0;width:52%;height:100%;background:linear-gradient(to right,#1e5035,#2d8a4e);border-radius:6px"></div>
+        <div style="position:absolute;left:0;top:0;width:45%;height:100%;background:linear-gradient(to right,#1e5035,#2d8a4e);border-radius:6px"></div>
       </div>
       <span style="font-size:11px;color:#1e5035;font-weight:700;min-width:42px">▼7.7%</span>
     </div>
