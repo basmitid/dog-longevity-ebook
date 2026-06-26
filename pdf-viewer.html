@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canine Geriatric Syndrome — 원문</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1e1209;background-image:radial-gradient(ellipse at 30% 50%,#2d1a0e,transparent 60%),radial-gradient(ellipse at 70% 50%,#0e0a05,transparent 60%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Noto Sans KR',sans-serif;padding:20px;gap:16px;}
+.title{color:rgba(255,255,255,0.45);font-size:12px;letter-spacing:2px;}
+.book-outer{position:relative;width:720px;height:520px;}
+.book-shadow{position:absolute;bottom:-18px;left:15%;width:70%;height:30px;background:rgba(0,0,0,0.5);filter:blur(18px);border-radius:50%;}
+.page{width:720px;height:520px;background:#fff;border-radius:3px 10px 10px 3px;box-shadow:-3px 0 6px rgba(0,0,0,0.2),8px 8px 24px rgba(0,0,0,0.5),18px 18px 40px rgba(0,0,0,0.3),inset -4px 0 12px rgba(0,0,0,0.06);overflow:hidden;position:relative;transform-origin:left center;display:flex;align-items:center;justify-content:center;}
+.page::before{content:'';position:absolute;left:0;top:0;bottom:0;width:48px;background:linear-gradient(to right,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.06) 50%,transparent 100%);z-index:20;pointer-events:none}
+.page::after{content:'';position:absolute;right:0;top:0;bottom:0;width:16px;background:linear-gradient(to left,rgba(0,0,0,0.07),transparent);z-index:20;pointer-events:none}
+canvas{display:block;max-width:100%;max-height:100%;object-fit:contain;}
+.loading{color:#c9a84c;font-size:13px;position:absolute;}
+.pnum{position:absolute;bottom:14px;right:24px;font-size:11px;color:#c9a84c;z-index:30;}
+@keyframes fOut{0%{transform:perspective(1400px) rotateY(0)}100%{transform:perspective(1400px) rotateY(-18deg);opacity:.4}}
+@keyframes fIn{0%{transform:perspective(1400px) rotateY(18deg);opacity:.4}100%{transform:perspective(1400px) rotateY(0)}}
+@keyframes fOutL{0%{transform:perspective(1400px) rotateY(0)}100%{transform:perspective(1400px) rotateY(18deg);opacity:.4}}
+@keyframes fInL{0%{transform:perspective(1400px) rotateY(-18deg);opacity:.4}100%{transform:perspective(1400px) rotateY(0)}}
+.fo{animation:fOut .28s ease forwards}.fi{animation:fIn .28s ease forwards}.fol{animation:fOutL .28s ease forwards}.fil{animation:fInL .28s ease forwards}
+.side-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:40;width:52px;height:80px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.65);font-size:28px;cursor:pointer;transition:all .2s;backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;border:none;}
+.side-btn:hover:not(:disabled){background:rgba(255,255,255,0.22);color:#fff;transform:translateY(-50%) scale(1.07);}
+.side-btn:disabled{opacity:.15;cursor:not-allowed;transform:translateY(-50%);}
+.side-prev{left:-62px;border-radius:10px 0 0 10px;}
+.side-next{right:-62px;border-radius:0 10px 10px 0;}
+.prog{width:720px;height:6px;background:rgba(255,255,255,0.1);border-radius:4px;cursor:pointer;}
+.pfill{height:100%;background:linear-gradient(to right,#c9831a,#f0c040);border-radius:4px;transition:width .4s ease;}
+.nav-row{display:flex;align-items:center;gap:20px;}
+.pcnt{color:rgba(255,255,255,0.45);font-size:12px;min-width:60px;text-align:center;}
+.hint{font-size:11px;color:rgba(255,255,255,0.2);text-align:center;}
+.nbtn{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.78);padding:10px 26px;border-radius:24px;cursor:pointer;font-size:13px;transition:all .2s;backdrop-filter:blur(8px);}
+.nbtn:hover:not(:disabled){background:rgba(255,255,255,0.18);color:#fff;}
+.nbtn:disabled{opacity:.28;cursor:not-allowed;}
+</style>
+</head>
+<body>
+<div class="title">CANINE GERIATRIC SYNDROME · 원문 논문</div>
+<div class="book-outer">
+  <div class="book-shadow"></div>
+  <button class="side-btn side-prev" id="pb" onclick="prev()">‹</button>
+  <button class="side-btn side-next" id="nb" onclick="next()">›</button>
+  <div class="page" id="page">
+    <span class="loading" id="loading">논문 불러오는 중…</span>
+    <canvas id="cv"></canvas>
+    <div class="pnum" id="pnum"></div>
+  </div>
+</div>
+<div class="prog" id="prog"><div class="pfill" id="pfill" style="width:50%"></div></div>
+<div class="nav-row">
+  <button class="nbtn" id="pb2" onclick="prev()">← 이전</button>
+  <span class="pcnt" id="pcnt">1 / 2</span>
+  <button class="nbtn" id="nb2" onclick="next()">다음 →</button>
+</div>
+<div class="hint">← → 키 또는 버튼으로 넘기세요</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+let pdfDoc = null, cur = 1, total = 0, busy = false;
+const PAGE_W = 720, PAGE_H = 520;
+
+pdfjsLib.getDocument('41598_2019_52585_MOESM1_ESM.pdf').promise.then(pdf => {
+  pdfDoc = pdf;
+  total = pdf.numPages;
+  document.getElementById('loading').style.display = 'none';
+  renderPage(1);
+}).catch(e => {
+  document.getElementById('loading').textContent = '로딩 실패: ' + e.message;
+});
+
+async function renderPage(num) {
+  const page = await pdfDoc.getPage(num);
+  const vp0 = page.getViewport({ scale: 1 });
+  const scaleX = PAGE_W / vp0.width;
+  const scaleY = PAGE_H / vp0.height;
+  const scale = Math.min(scaleX, scaleY) * 0.92;
+  const vp = page.getViewport({ scale });
+
+  const cv = document.getElementById('cv');
+  cv.width = vp.width;
+  cv.height = vp.height;
+  await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+
+  document.getElementById('pnum').textContent = num + ' / ' + total;
+  document.getElementById('pcnt').textContent = num + ' / ' + total;
+  document.getElementById('pfill').style.width = (num / total * 100) + '%';
+  document.getElementById('pb').disabled = document.getElementById('pb2').disabled = num <= 1;
+  document.getElementById('nb').disabled = document.getElementById('nb2').disabled = num >= total;
+}
+
+function go(idx, dir) {
+  if (busy || !pdfDoc || idx < 1 || idx > total) return;
+  busy = true;
+  const pg = document.getElementById('page');
+  const outC = dir === 'next' ? 'fo' : 'fol';
+  const inC  = dir === 'next' ? 'fi'  : 'fil';
+  pg.classList.add(outC);
+  setTimeout(() => {
+    pg.classList.remove(outC); cur = idx; renderPage(cur);
+    pg.classList.add(inC);
+    setTimeout(() => { pg.classList.remove(inC); busy = false; }, 280);
+  }, 280);
+}
+function next() { go(cur + 1, 'next'); }
+function prev() { go(cur - 1, 'prev'); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prev();
+});
+
+let tx = 0;
+const pg = document.getElementById('page');
+pg.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+pg.addEventListener('touchend',   e => {
+  const d = tx - e.changedTouches[0].clientX;
+  if (Math.abs(d) > 50) { d > 0 ? next() : prev(); }
+}, { passive: true });
+</script>
+</body>
+</html>
